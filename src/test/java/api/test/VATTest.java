@@ -8,25 +8,30 @@ import com.google.gson.JsonObject;
 
 import api.endpoints.VATEndPoints;
 import api.testdata.VATDataMapper;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
 public class VATTest {
 	VATDataMapper vatData;
+	Response response;
+	JsonPath jsonPathEvaluator;
+	private String bearerToken;
 
 	@BeforeClass
 	public void setupData() {
 		vatData = VATDataMapper.getVATData();
-		JsonObject requestParam = new JsonObject();
 
 	}
 
-	//@Test
+	@Test
 	public void getBearerToken() {
-//		Response response = VATEndPoints.getBasicAuth();
-//		response.then().log().all();
-//
-//		Assert.assertEquals(response.getStatusCode(), 200);
-//		String bearerToken=response.body().
+		response = VATEndPoints.getBasicAuth(vatData.getUserName(), vatData.getPassword());
+		response.then().log().all();
+
+		Assert.assertEquals(response.getStatusCode(), 200);
+		jsonPathEvaluator = response.jsonPath();
+
+		bearerToken = jsonPathEvaluator.get("data.accessToken");
 	}
 
 	// @Test(priority = 1)
@@ -37,9 +42,17 @@ public class VATTest {
 		Assert.assertEquals(response.getStatusCode(), 200);
 	}
 
-	@Test
+	//@Test
 	public void getUserByName() {
-		Response response = VATEndPoints.getAllVAT(vatData.getBearerToken());
+		Response response = VATEndPoints.getAllVAT(bearerToken);
+		response.then().log().all();
+
+		Assert.assertEquals(response.getStatusCode(), 200);
+	}
+	
+	@Test
+	public void getVATByID() {
+		Response response = VATEndPoints.getVATByID(bearerToken);
 		response.then().log().all();
 
 		Assert.assertEquals(response.getStatusCode(), 200);

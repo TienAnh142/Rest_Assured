@@ -47,11 +47,31 @@ public class VATDataMapper {
 
 	@JsonProperty("vatID")
 	String vatID;
-	
+
 	@JsonProperty("bearerToken")
 	String bearerToken;
 
+	@JsonProperty("userName")
+	String userName;
 
+	@JsonProperty("password")
+	String password;
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public static VATDataMapper getVATData() {
 		try {
@@ -168,7 +188,7 @@ public class VATDataMapper {
 	public void setRequestReason(String requestReason) {
 		this.requestReason = requestReason;
 	}
-	
+
 	public String getBearerToken() {
 		return bearerToken;
 	}

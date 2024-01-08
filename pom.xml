@@ -7,7 +7,7 @@
 	<artifactId>Building_Selenium_Project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>Building_Selenium_Project</name>
+	<name>Demo_Project</name>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 
@@ -20,8 +20,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Compiler Code with Java 11 -->
-		<maven.compiler.target>17</maven.compiler.target>
-		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
 
 		<!-- Global variable for dependencies -->
 		<webdriver.version>3.141.59</webdriver.version>
@@ -36,6 +36,7 @@
 		<reportng.version>1.1.4</reportng.version>
 		<restassured.version>5.1.1</restassured.version>
 		<javaclient.version>8.6.0</javaclient.version>
+		<cucumber.version> 1.2.5 </cucumber.version>
 	</properties>
 
 
@@ -159,6 +160,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20230618</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
@@ -172,6 +179,38 @@
 			<groupId>io.appium</groupId>
 			<artifactId>java-client</artifactId>
 			<version>${javaclient.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.masterthought</groupId>
+			<artifactId>cucumber-reporting</artifactId>
+			<version>3.20.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-core</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-testng</artifactId>
+			<version>${cucumber.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -217,6 +256,40 @@
 				<plugin>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
 					<version>3.0.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.18.1</version>
+					<configuration>
+						<includes>
+							<include>**/*/CucumberTestRunner.java</include>
+						</includes>
+					</configuration>
+				</plugin>
+
+				<!-- Generate report -->
+				<plugin>
+					<groupId>net.masterthought</groupId>
+					<artifactId>maven-cucumber-reporting</artifactId>
+					<version>3.10.0</version>
+					<executions>
+						<execution>
+							<id>execution</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<configuration>
+								<projectName>SELENIUM ONLINE - BANK GURU</projectName>
+								<outputDirectory>${project.build.directory}/site/cucumber-reporting</outputDirectory>
+								<cucumberOutput>${project.build.directory}/site/cucumber.json</cucumberOutput>
+								<enableFlashCharts>true</enableFlashCharts>
+								<skippedFails>true</skippedFails>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>

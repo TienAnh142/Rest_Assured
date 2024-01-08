@@ -7,4 +7,6 @@ public class Routes {
 	public static String post_url = base_url + "/vat/request";
 	public static String get_url = base_url + "/vat";
 	public static String basicAuth_url = base_url + "/auth/basic";
+	public static String getVATByID_url = base_url + "/vat/1";
+
 }
